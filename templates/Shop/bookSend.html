@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load  static %}
+
+{% block content %}
+    <br>
+    <br>
+    <div class="col col-6 section-title" data-aos="fade-up">
+        <h2>Send Order</h2>
+    </div>
+    <div class="row">
+        <div class="lead text-white">
+                <form method="POST" class="text-white">
+                    {% csrf_token %}
+                    {{ form.as_table }} <br>
+                    <p class="text-center">
+                        <button type="button" class="btn btn-secondary" onclick="history.back()">
+                            <i class="fa fa-rotate-back"></i> Back
+                        </button>
+                        <button type="submit" class="btn btn-lg btn-success"
+                                onclick="return confirm('โปรดยืนยันการบันทึกข้อมูลการส่งสินค้า')">
+                            <i class="fa-solid fa-truck-fast"></i> Save
+                        </button>
+                    </p>
+                </form>
+        </div>
+    <br>
+    <br>
+
+        <div class="lead text-white text-end">
+            <div>
+            <br>
+                Order ID: <b class="text-danger">#{{ order.oid }} </b>, Date: {{ order.odate|date:"Y-m-d H:i:s" }}&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br>
+                Customer: {{ order.customer.cid }} {{ order.customer.name }}, Address: {{ order.customer.address }}
+                Tel: {{ order.customer.telephone }}&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br>
+                Status: [<b class="text-danger">
+                {% if order.status == '1' %}
+                    รอการยืนยัน
+                {% elif order.status == '2' %}
+                    รอการชำระเงิน
+                {% elif order.status == '3' %}
+                    รอยืนยันการชำระเงิน
+                {% elif order.status == '4' %}
+                    รอสินค้าส่ง
+                {% else %}
+                    สำเร็จ
+                {% endif %}
+            </b>]&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            </div>
+        </div>
+
+    </div>
+
+   <table class="table container table-dark table-hover">
+        <tr class="text-center text-white">
+            <th class="col col-1">Product ID</th>
+            <th class="col col-4">Name</th>
+            <th class="col col-3">Category</th>
+            <th class="col col-1">Price</th>
+            <th class="col col-1">Quantity</th>
+            <th class="col col-2">Total</th>
+        </tr>
+        {% for item in order.getOrderDetails %}
+            <tr class="bg-white">
+                <td class="text-center">{{ item.ebooks.bid }}  </td>
+                <td class="text-start">{{ item.ebooks.name }}</td>
+                <td class="text-start">{{ item.ebooks.category.type }}</td>
+                <td class="text-end">{{ item.oprice }}</td>
+                <td class="text-center">{{ item.quantity }}</td>
+                <td class="text-end">{{ item.getTotal }}</td>
+            </tr>
+        {% endfor %}
+        <tr class="text-end text-dark">
+            <td colspan="5" class="text-white"><h5>Items:</h5></td>
+            <td class="text-white"><h5>{{ order.getCount }} </h5></td>
+        </tr>
+        <tr class="text-end text-dark">
+            <td colspan="5" class="text-white"><h5>Total: </h5></td>
+            <td class="text-white"><h5>{{ order.getTotal | floatformat:2 }} </h5></td>
+        </tr>
+
+    </table>
+    <br>
+    <br>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <br>
+    <div class="section-title pt-5" data-aos="fade-up">
+        <h2>Category Information</h2>
+    </div>
+    <div class="container d-flex justify-content-end" data-aos="fade-up">
+        <div class=" d-flex justify-content-end">
+            <a href="{% url 'categoryNew' %}"><i class="fa fa-plus">&nbsp; เพิ่ม</i></a>
+        </div>
+    </div>
+
+    <br><br>
+
+    <table>
+        <div class="row">
+            {% for categorys in category %}
+                <div class="column">
+                    <td class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <img src="{% static 'images/Books-PNG-Image-HD.png' %}" width="300px"
+                             class="img img-fluid description"><br><br>
+                    </td>
+                    <td class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="icon-box" data-aos="fade-up">
+                            <p class="description">รหัสหมวดหมู่ : {{ categorys.id }}</p>
+                            <p class="description">ชื่อหมวดหมู่ : {{ categorys.name }}</p>
+                            <p class="description">ประเภท : {{ categorys.type }}</p>
+                            <div class="text-end">
+                                <a href="{% url 'categoryUpdate' categorys.id %}" class="text-white">
+                                            <i class="fas fa-tools"></i>
+                                        </a> &nbsp;
+                                <a href="{% url 'categoryDelete' categorys.id %}" class="text-danger">
+                                    <i class="fas fa-trash"></i>
+                                </a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            </div>
+                        </div>
+                    </td>
+                </div>
+
+                <td class="ql-bg-black"></td>
+                {% if forloop.counter|divisibleby:2 and not forloop.last %}
+                    <tr>
+                        <td class="ql-bg-black"><br></td>
+                    </tr>
+                    <tr>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </table>
+{% endblock %}

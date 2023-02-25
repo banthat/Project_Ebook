@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load fontawesome_5 %}
+{% fontawesome_5_static %}
+
+{% block content %}
+    <br>
+    <div class="section-title pt-5" data-aos="fade-up">
+        <h2>E-Book Information</h2>
+    </div>
+    <div class="container d-flex justify-content-end" data-aos="fade-up">
+        <div class=" d-flex justify-content-end">
+            <a href="{% url 'ebookNew' %}"><i class="fa fa-plus">&nbsp; เพิ่ม</i></a>
+        </div>
+    </div>
+    <br>
+    <div class="row" data-aos="fade-up">
+        {% for ebooks in ebook %}
+            <div class="col-xl-4" data-aos="fade-up">
+                <div class="card bg-dark text-white">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center ">
+                        <img src="{% static ebooks.picture %}" class="img img-thumbnail text-center" alt="Profile">
+                        <h4>{{ ebooks.bid }}</h4>
+                        <h5>{{ ebooks.name }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8" data-aos="fade-up">
+                <div class="card bg-dark">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs หัวข้อ -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link active" data-bs-toggle="tab"
+                                        data-bs-target="#profile-overview">
+                                    รายละเอียด
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- รายละเอียด -->
+                        <div class="tab-content pt-2 text-white">
+                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                                <h5 class="card-title">รายละเอียดหนังสือ</h5><br>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label ">รหัสหนังสือ</div>
+                                    <div class="col-lg-9 col-md-8">{{ ebooks.bid }}</div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">ชื่อหนังสือ</div>
+                                    <div class="col-lg-9 col-md-8">{{ ebooks.name }}</div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">ราคา</div>
+                                    <div class="col-lg-9 col-md-8">{{ ebooks.price }}</div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">วันที่วางขาย</div>
+                                    <div class="col-lg-9 col-md-8">{{ ebooks.sellDate }}</div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">หมวดหมู่</div>
+                                    <div class="col-lg-9 col-md-8">{{ ebooks.category.name }}</div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">ประเภท</div>
+                                    <div class="col-lg-9 col-md-8">{{ ebooks.category.type }}</div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">นักเขียน</div>
+                                    <div class="col-lg-9 col-md-8">{{ ebooks.writer.name }}</div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">สำนักพิมพ์</div>
+                                    <div class="col-lg-9 col-md-8">{{ ebooks.writer.publisher }}</div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">รายละเอียด</div>
+                                    <div class="col-lg-9 col-md-8">{{ ebooks.desc }}</div>
+                                </div>
+                                <br>
+
+                                <div class="text-end">
+                                    <a href="{% url 'ebookUpdate' ebooks.bid %}" class="text-white">
+                                        <i class="fas fa-tools"></i>
+                                    </a> &nbsp;
+                                    <a href="{% url 'ebookDelete' ebooks.bid %}" class="text-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div><!-- End Bordered Tabs -->
+
+                    </div>
+                </div>
+                <br>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

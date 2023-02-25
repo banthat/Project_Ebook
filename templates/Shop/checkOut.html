@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load  static %}
+
+{% block content %}
+    <br>
+    <br>
+    <script>
+        var source = window.document.getElementsById("checkout")[0];
+        var specialElementHandlers = {
+            '#hidden-element': function (element, renderer) {
+                return true;
+            }
+        };
+        var doc = new jsPDF({
+            orientation: 'landscape'
+        });
+        doc.setFont("courier");
+        doc.setFontType("normal");
+        doc.setFontSize(24);
+        doc.setTextColor(100);
+        doc.fromHTML(elementHTML, 15, 15, {
+            'width': 170,
+            'elementHandlers': specialElementHandlers
+        });
+    </script>
+    <div class="col col-6 section-title pt-5" data-aos="fade-up">
+        <h2>Check Out</h2>
+    </div>
+    <div id="checkout">
+        <div class="row">
+            <div class="lead text-white">
+                <div class="section-title text-end">
+                    Date: {{ order.odate }}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+                    Customer: {{ order.customer.name }}, Tel: {{ order.customer.telephone }}&nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                </div>
+            </div>
+        </div>
+
+        <table class="table container table-dark table-hover">
+            <tr class="text-center text-white">
+                <th class="col col-2">Product ID</th>
+                <th class="col col-3">Name</th>
+                <th class="col col-3">Category</th>
+                <th class="col col-1">Price</th>
+                <th class="col col-1">Quantity</th>
+                <th class="col col-2">Total</th>
+            </tr>
+
+            {% for item in items %}
+                <tr class="bg-white">
+                    <td class="text-center">{{ item.ebooks.bid }}  </td>
+                    <td class="text-start">{{ item.ebooks.name }}</td>
+                    <td class="text-start">{{ item.ebooks.category.type }}</td>
+                    <td class="text-end">{{ item.ebooks.price }}</td>
+                    <td class="text-center">{{ item.quantity }}</td>
+                    <td class="text-end"><b>{{ item.total | floatformat:2 }}</b></td>
+                </tr>
+            {% endfor %}
+            <tr class="text-end text-white">
+                <td colspan="5"><h5>Items:</h5></td>
+                <td><h5>{{ request.session.count }} </h5></td>
+            </tr>
+            <tr class="text-end text-white">
+                <td colspan="5"><h5>Total: </h5></td>
+                <td><h5>{{ request.session.sum | floatformat:2 }} </h5></td>
+            </tr>
+        </table>
+        <div colspan="6" class="text-center">
+            <a href="{% url 'basket' %}" class="btn btn-secondary"><i class="fa fa-rotate-back"></i> Back </a>
+            <a href="{% url 'ebookShop' %}" class="btn text-white" style="background-color: #481f01">
+                <i class="fa fa-shopping-cart"></i>
+                Continues </a>
+            <a href="{% url 'order' %}" class="btn btn-success btn-lg"
+               onclick="return confirm('Are you sure to order?')"><i class="fa fa-check-double"></i> Order! </a>
+        </div>
+    </div>
+    <br>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <br>
+
+    <div class="section-title pt-5" data-aos="fade-up">
+        <h2>Delete Writer</h2>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3" data-aos="fade-up">
+                <div class="row">
+                    <div class="fakeimg">
+                        <img class="card-img-top" src="{% static 'images/Man_36749.png' %}" alt="Card image"><br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9" data-aos="fade-up">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <p class="text-end">
+                    <button type="button" class="btn btn-secondary" onclick="history.back()">
+                        <i class="fa fa-rotate-back"></i> Back
+                    </button>
+
+                    {% if writer.getCountEbook == 0 %}
+                        <button type="submit" class="btn btn-lg btn-danger"
+                                onclick="return confirm('โปรดยืนยันการลบนักเขียนนี้' )">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+                    {% else %}
+                        <button class="btn btn-lg btn-danger disabled">
+                            นักเขียนนี้มีหนังสือบางรายการปรากฎอยู่ในระบบแล้ว ไม่สามารถลบได้
+                        </button>
+
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

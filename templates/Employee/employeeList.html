@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <br>
+    <div class="section-title pt-5" data-aos="fade-up">
+        <h2>Employee Information</h2>
+    </div>
+    <div class="container d-flex justify-content-end" data-aos="fade-up">
+        <div class=" d-flex justify-content-end">
+            <a href="{% url 'employeeNew' %}"><i class="fa fa-plus">&nbsp; เพิ่ม</i></a>
+        </div>
+    </div>
+
+    <br><br>
+
+    <table>
+        <div class="row">
+            {% for employees in employee %}
+                <div class="column">
+                    <td class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <img src="{% static 'images/technicalsupport_support_representative_person_people_woman_1643.png' %}" width="300px"
+                             class="img img-fluid description"><br><br>
+                    </td>
+                    <td class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="icon-box" data-aos="fade-up">
+                            <p class="description">รหัสพนักงาน : {{ employees.eid }}</p>
+                            <p class="description">ชื่อพนักงาน : {{ employees.name }}</p>
+                            <p class="description">เบอร์โทร : {{ employees.telephone }}</p>
+                            <p class="description">ตำแหน่ง : {{ employees.position }}</p>
+                            <div class="text-end">
+                                <a href="{% url 'employeeUpdate' employees.eid %}" class="text-white">
+                                            <i class="fas fa-tools"></i>
+                                        </a> &nbsp;
+                                <a href="{% url 'employeeDelete' employees.eid %}" class="text-danger">
+                                    <i class="fas fa-trash"></i>
+                                </a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            </div>
+                        </div>
+                    </td>
+                </div>
+
+                <td class="ql-bg-black"></td>
+                {% if forloop.counter|divisibleby:2 and not forloop.last %}
+                    <tr>
+                        <td class="ql-bg-black"><br></td>
+                    </tr>
+                    <tr>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </table>
+{% endblock %}

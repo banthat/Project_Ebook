@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}<title>E-Book</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
+
+<link href="../../static/images/img/favicon.png" rel="icon">
+<link href="../../static/images/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="../../static/stylesheets/assets/vendor/aos/aos.css" rel="stylesheet">
+<link href="../../static/stylesheets/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../../static/stylesheets/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="../../static/stylesheets/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+<link href="../../static/stylesheets/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+<link href="../../static/stylesheets/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="../../static/stylesheets/assets/css/style.css" rel="stylesheet">
+
+{% block content %}
+    <main>
+        <section id="services" class="services ">
+            <div class="section-title pt-5" data-aos="fade-up">
+                <h2>E-Book Information</h2>
+            </div>
+            <div class="container d-flex justify-content-end" data-aos="fade-up">
+                <div class=" d-flex justify-content-end">
+                    <a href="{% url 'writerNew' %}"><i class="fa fa-plus">&nbsp; เพิ่ม</i></a>
+                </div>
+            </div>
+
+            <br><br>
+
+            <table>
+                <div class="row">
+                    {% for writers in writer %}
+                        <div class="column">
+                            <td class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                                <img src="{% static 'images/Man_36749.png' %}" width="300px"
+                                     class="img img-fluid description"><br><br>
+                                <div class="icon-box" data-aos="fade-up">
+                                    <div class="icon"><i class="bi bi-card-checklist" style="color: #ff689b;"></i></div>
+                                    <p class="description">รหัสนักเขียน : {{ writers.wid }}</p>
+                                    <p class="description">ชื่อ : {{ writers.name }}</p>
+                                    <p class="description">สำนักพิมพ์ : {{ writers.publisher }}</p>
+                                    <div class="text-end">
+                                        <a href="{% url 'writerUpdate' writers.wid %}" class="text-white">
+                                            <i class="fas fa-tools"></i>
+                                        </a> &nbsp;
+                                        <a href="{% url 'writerDelete' writers.wid %}" class="text-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                    </div>
+                                </div>
+
+                            </td>
+                        </div>
+
+                        <td class="ql-bg-black"></td>
+                        {% if forloop.counter|divisibleby:4 and not forloop.last %}
+                            <tr>
+                                <td class="ql-bg-black"><br></td>
+                            </tr>
+                            <tr>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </table>
+        </section>
+    </main><!-- End #main -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="../../static/stylesheets/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="../../static/stylesheets/assets/vendor/aos/aos.js"></script>
+    <script src="../../static/stylesheets/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../static/stylesheets/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="../../static/stylesheets/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="../../static/stylesheets/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="../../static/stylesheets/assets/vendor/waypoints/noframework.waypoints.js"></script>
+    <script src="../../static/stylesheets/assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="../../static/stylesheets/assets/js/main.js"></script>
+
+{% endblock %}

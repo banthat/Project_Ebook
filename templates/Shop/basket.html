@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <br>
+    <br>
+    <div class="col col-6 section-title pt-5" data-aos="fade-up">
+        <h2>Basket</h2>
+    </div>
+    <table class="table container mt-3 table-dark table-hover">
+        <tr class="text-center text-white">
+            <th class="col col-3 text-center">Product ID</th>
+            <th class="col col-2 text-start">Name</th>
+            <th class="col col-2 text-start">Category</th>
+            <th class="col col-1 text-start">Price</th>
+            <th class="col col-3 text-center">Quantity</th>
+            <th class="col col-2 text-start">Total</th>
+        </tr>
+
+        {% for item in items %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="bid" value="{{ item.ebooks.bid }}">
+                <tr>
+                    <td class="text-center text-white">
+                        <img src="{% static item.ebooks.picture %}" width="180px" height="120px"
+                        class="img img-thumbnail"><br>{{ item.ebooks.bid }}
+                    </td>
+                    <td class="text-start text-white">{{ item.ebooks.name }}</td>
+                    <td class="text-start text-white">{{ item.ebooks.category.type }}</td>
+                    <td class="text-start text-white">{{ item.ebooks.price }}</td>
+
+                    <td class="text-center">
+                        <input type="number" name="qnt" style="width:75px" value="{{ item.quantity }}" min="1" max="20">
+                        <button type="submit" class="btn btn-info" name="action" value="Update">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <button type="submit" class="btn btn-danger" name="action" value="Remove"
+                                onclick="return confirm('ท่านต้องการลบสินค้ารายการนี้ออกจากตระกร้า?')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                    <td class="text-start"><b>{{ item.total | floatformat:2}}</b></td>
+                </tr>
+            </form>
+        {% endfor %}
+    </table>
+
+    <div class="row">
+        <div class="section-title text-end">
+            <h6> {{ request.session.count }}&nbsp; items,&nbsp; &nbsp; &nbsp; Total:
+                &nbsp; {{ request.session.sum | floatformat:2 }}
+                <a href="{% url 'clearBasket' %}" class="text-danger btn-lg"
+                   onclick="return confirm('ท่านต้องการยกเลิกรายการทั้งหมดในตระกร้า?')">
+                    <i class="fa fa-trash"></i></a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</h6>
+        </div>
+    </div>
+
+    <p class="text-center">
+        <a href="{% url 'ebookShop' %}" class="btn text-white" style="background-color: #481f01"><i
+                class="fa fa-shopping-cart"></i> Continues </a>
+        <a href="{% url 'checkout' %}" class="btn text-white" STYLE="background-color: #cc5803"><i
+                class="fa fa-cash-register"></i> Check out</a>
+    </p>
+    <br>
+    <br>
+
+
+{% endblock %}

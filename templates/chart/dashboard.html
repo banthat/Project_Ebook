@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <br>
+    <br>
+    <h2 class="text-primary text-center">Dashboard สรุปข้อมูลสินค้า/การขาย</h2>
+    <div class="row text-center">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            {{ chart | safe }}
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+{% endblock %}

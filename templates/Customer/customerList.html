@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <br>
+
+    <div class="section-title pt-5" data-aos="fade-up">
+        <h2>Customer Information</h2>
+    </div>
+
+    <table>
+        <div class="row">
+            {% for customer in customers %}
+                <div class="column">
+                    <td class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <img src="{% static 'images/businessapplication_accept_ok_male_man_you_negocio_2311.png' %}" width="300px"
+                             class="img img-fluid description"><br><br>
+                        <div class="icon-box" data-aos="fade-up">
+                            <p class="description">รหัสนักเขียน : {{ customer.cid }}</p>
+                            <p class="description">ชื่อ : {{ customer.name }}</p>
+                            <p class="description">เพศ : {{ customer.gender }}</p>
+                            <p class="description">เบอรโทร : {{ customer.telephone }}</p>
+                        </div>
+                    </td>
+                </div>
+
+                <td class="ql-bg-black"></td>
+                {% if forloop.counter|divisibleby:4 and not forloop.last %}
+                    <tr>
+                        <td class="ql-bg-black"><br></td>
+                    </tr>
+                    <tr>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </table>
+{% endblock %}

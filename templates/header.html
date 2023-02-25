@@ -1,0 +1,197 @@
+{% load static %}
+{% load fontawesome_5 %}
+{% fontawesome_5_static %}
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+<title>E-Book</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
+
+<!-- Favicons -->
+<link href="../static/images/img/favicon.png" rel="icon">
+<link href="../static/images/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="../static/stylesheets/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+<link href="../static/stylesheets/assets/vendor/aos/aos.css" rel="stylesheet">
+<link href="../static/stylesheets/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../static/stylesheets/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="../static/stylesheets/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+<link href="../static/stylesheets/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+<link href="../static/stylesheets/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="../static/stylesheets/assets/css/style.css" rel="stylesheet">
+
+<link href="">
+
+<!-- ======= Top Bar ======= -->
+<div id="topbar" class="d-flex align-items-center fixed-topn">
+
+    {% if request.session.userId %}
+        <div class="container d-flex justify-content-center justify-content-md-between">
+            <div class="contact-info d-flex align-items-center">
+                <i class="fa fa-id-card"></i>&nbsp; User ID: {{ request.session.userId }}&nbsp;&nbsp;<br>
+                <i class="fa fa-user"></i>&nbsp; User Name: {{ request.session.userName }} &nbsp;<br>
+                <i class="fas fa-calendar-week"></i>&nbsp; Status: {{ request.session.userStatus }} &nbsp;<br>
+
+                {% if request.session.userStatus == 'customer' %}
+                    <a href="{% url 'customerUpdate' request.session.userId %}"
+                       class="text-lg-start text-secondary text-decoration-none">
+                        <i class="fas fa-user-edit"></i> </a>
+                {% endif %}
+
+            </div>
+
+            <div class="languages d-md-flex align-items-center">
+                <ul>
+                    <li><a href="{% url 'userLogout' %}" class="nav-link scrollto active">Log Out &nbsp;<i
+                            class="fas fa-sign-in-alt"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <div class="container d-flex justify-content-end">
+            <div class="languages d-md-flex align-items-center">
+                <ul>
+                    <li><a href="{% url 'userAuthen' %}" class="nav-link scrollto active">
+                        &nbsp; SignIn / SignUp</a></li>
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top d-flex align-items-start bg-dark">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+        <h1 class="logo me-auto me-lg-0"><a href="#">NAVEL</a></h1>
+
+        <!-- ทุกคน -->
+        {% if request.session.userId is None %}
+            <nav id="navbar" class="navbar order-last order-lg-0">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'ebookShop' %}">นิยาย</a></li>
+                    <li class="dropdown"><a href="#"><span>Chart</span> <i class="bi bi-chevron-right"></i></a>
+                        <ul>
+                            <li><a href="{% url 'dashboardBarGraph' %}">สรุปข้อมูลสินค้า/การขาย</a></li>
+                            <li><a href="{% url 'dashboardPieGraph' %}">สรุปข้อมูลสินค้า/การขาย</a></li>
+                            <li><a href="{% url 'dashboardLineChart' %}">Deep Drop Down 3</a></li>
+                            <li><a href="{% url 'dashboardAreaChart' %}">Deep Drop Down 4</a></li>
+                            <li><a href="{% url 'dashboardPieGraph' %}">Deep Drop Down 5</a></li>
+                            <li><a href="{% url 'pdfProductReport' %}">Deep Drop Down 4</a></li>
+                            <li><a href="{% url 'pdfThaiReport' %}">Deep Drop Down 5</a></li>
+                        </ul>
+                    </li>
+                    {#                    <li><a href="{% url 'ebook_1' %}"><span>นิยาย</span></a></li>#}
+                    {#                    <li><a href="{% url 'ebook_2' %}"><span>การ์ตูน</span></a></li>#}
+                    {#                    <li><a href="{% url 'ebook_3' %}"><span>นิตยสาร</span></a></li>#}
+
+                    <li> <!-- ตะกร้า -->
+                        <div class="header_cart header_cart_wish_list">
+                            <a class="nav-link scrollto text-lg-end" href="#">
+                                {% if 'count' in request.session %}
+                                    <a href="{% url 'basket' %}" class="pt-0">
+                                        <img src="{% static 'images/allImages/222.png' %}" width="30px" height="30">
+                                        ตะกร้า
+                                        <span class="badge rounded-pill bg-danger">{{ request.session.count }}</span>
+                                    </a>
+                                {% endif %}
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav><!-- .navbar -->
+        {% else %}
+            <!-- ลูกค้า -->
+            {% if request.session.userStatus == 'customer' %}
+                <nav id="navbar" class="navbar order-last order-lg-0">
+                    <ul>
+                        <li><a class="nav-link scrollto active" href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'ebookShop' %}">นิยาย</a></li>
+                        <li class="dropdown"><a href="#"><span>Chart</span> <i class="bi bi-chevron-right"></i></a>
+                            <ul>
+                                <li><a href="{% url 'dashboardBarGraph' %}">สรุปข้อมูลสินค้า/การขาย</a></li>
+                                <li><a href="{% url 'dashboardPieGraph' %}">สรุปข้อมูลสินค้า/การขาย</a></li>
+                                <li><a href="{% url 'dashboardLineChart' %}">Deep Drop Down 3</a></li>
+                                <li><a href="{% url 'dashboardAreaChart' %}">Deep Drop Down 4</a></li>
+                                <li><a href="{% url 'dashboardPieGraph' %}">Deep Drop Down 5</a></li>
+                                <li><a href="{% url 'pdfProductReport' %}">Deep Drop Down 4</a></li>
+                                <li><a href="{% url 'pdfThaiReport' %}">Deep Drop Down 5</a></li>
+                            </ul>
+                        </li>
+                        {#                        <li class="dropdown"><a href="{% url 'ebook_1' %}"><span>นิยาย</span></a></li>#}
+                        {#                        <li class="dropdown"><a href="{% url 'ebook_2' %}"><span>การ์ตูน</span></a></li>#}
+                        {#                        <li class="dropdown"><a href="{% url 'ebook_3' %}"><span>นิตยสาร</span></a></li>#}
+                        <li><a href="{% url 'showAllOrder' %}"><span>Order</span></a></li>
+                        <li> <!-- ตะกร้า -->
+                            <div class="header_cart header_cart_wish_list">
+                                <a class="nav-link scrollto text-lg-end" href="#">
+                                    {% if 'count' in request.session %}
+                                        <a href="{% url 'basket' %}" class="pt-0">
+                                            <img src="{% static 'images/allImages/222.png' %}" width="30px" height="30">
+                                            ตะกร้า
+                                            <span class="badge rounded-pill bg-danger">{{ request.session.count }}</span>
+                                        </a>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav><!-- .navbar -->
+                <!-- พนักงาน -->
+            {% else %}
+                <nav id="navbar" class="navbar order-last order-lg-0">
+                    <ul>
+                        <li><a class="nav-link scrollto active" href="{% url 'home' %}">Home</a></li>
+                        <li><a class="nav-link scrollto" href="{% url 'categoryList' %}">จัดการหมวดหมู่</a></li>
+                        <li><a class="nav-link scrollto" href="{% url 'ebookList' %}">จัดการหนังสือ</a></li>
+                        <li><a class="nav-link scrollto" href="{% url 'writerList' %}">จัดการนักเขียน</a></li>
+                        <li><a class="nav-link scrollto" href="{% url 'customerList' %}">จัดการลูกค้า</a></li>
+                        <li><a class="nav-link scrollto" href="{% url 'employeeList' %}">จัดการพนักงาน</a></li>
+                        <li><a href="{% url 'showAllOrder' %}"><span>Order</span></a></li>
+                        <li class="dropdown"><a href="#"><span>Chart</span> <i class="bi bi-chevron-right"></i></a>
+                            <ul>
+                                <li><a href="{% url 'dashboardBarGraph' %}">สรุปข้อมูลสินค้า/การขาย</a></li>
+                                <li><a href="{% url 'dashboardPieGraph' %}">สรุปข้อมูลสินค้า/การขาย</a></li>
+                                <li><a href="{% url 'dashboardLineChart' %}">Deep Drop Down 3</a></li>
+                                <li><a href="{% url 'dashboardAreaChart' %}">Deep Drop Down 4</a></li>
+                                <li><a href="{% url 'dashboardPieGraph' %}">Deep Drop Down 5</a></li>
+                                <li><a href="{% url 'pdfProductReport' %}">Deep Drop Down 4</a></li>
+                                <li><a href="{% url 'pdfThaiReport' %}">Deep Drop Down 5</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav><!-- .navbar -->
+            {% endif %}
+        {% endif %}
+        <a href="admin" class="book-a-table-btn scrollto d-none d-lg-flex">Admin</a>
+
+    </div>
+</header>
+<!-- End Header -->
+
+<div id="preloader"></div>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script src="../static/stylesheets/assets/vendor/aos/aos.js"></script>
+<script src="../static/stylesheets/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../static/stylesheets/assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="../static/stylesheets/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="../static/stylesheets/assets/vendor/php-email-form/validate.js"></script>
+<script src="../static/stylesheets/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Template Main JS File -->
+<script src="../static/stylesheets/assets/js/main.js"></script>
+
+<br><br>
+
